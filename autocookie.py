@@ -50,17 +50,41 @@ def getCookieShop():
 
 
 def main():
-    st.title("😎Shopee Bot Bergabung😎")
+    st.title("Shopee Bot")
 
     id_session_target = st.text_input("Masukkan ID session target (wajib diisi): ")
     jumlah_loop = st.text_input("Masukkan jumlah loop (wajib diisi): ")
 
     if st.button("Mulai Bot"):
-        for _ in range(int(jumlah_loop)):
-            random_cookie = getCookieShop()  # Memperbarui cookie setiap kali loop dimulai
-            uidinya = str(uuid.uuid4())
-            datax = join_shopee_session(id_session_target, f"{uidinya}", random_cookie)
+        # Konversi jumlah_loop ke integer
+        jumlah_loop_int = int(jumlah_loop)
+
+        # Batas maksimum percobaan
+        max_attempts = 3
+
+        for _ in range(jumlah_loop_int):
+            attempt = 0
+            success = False
+            while attempt < max_attempts and not success:
+                random_cookie = getCookieShop()  # Memperbarui cookie setiap kali loop dimulai
+                uidinya = str(uuid.uuid4())
+                datax = join_shopee_session(id_session_target, f"{uidinya}", random_cookie)
+                if datax:
+
+                    success = True
+                else:
+                    attempt += 1
+            if not success:
+                pass
+
+
+            # Periksa apakah jumlah loop telah habis dan masih belum berhasil
+            if _ == jumlah_loop_int - 1 and not success:
+
+                break
 
 
 if __name__ == "__main__":
     main()
+
+
