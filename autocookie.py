@@ -44,25 +44,20 @@ def join_shopee_session(session_id, generated_uuid, vcookie):
 
 def getCookieShop():
     url = "https://whitelist-bot.com/random.php"
-
-    headers = {
-        'Host': "whitelist-bot.com"
-    }
-
+    headers = {'Host': "whitelist-bot.com"}
     response = requests.get(url, headers=headers)
-    cookienya = response.text.strip()
-    return cookienya
+    return response.text.strip()
 
 
 def main():
     st.title("😎Shopee Bot Bergabung😎")
 
-    id_session_target = st.text_input("Masukkan ID session live")
-    jumlah_loop = st.text_input("Masukkan jumlah loop")
+    id_session_target = st.text_input("Masukkan ID session target (wajib diisi): ")
+    jumlah_loop = st.text_input("Masukkan jumlah loop (wajib diisi): ")
 
     if st.button("Mulai Bot"):
         for _ in range(int(jumlah_loop)):
-            random_cookie = getCookieShop()
+            random_cookie = getCookieShop()  # Memperbarui cookie setiap kali loop dimulai
             uidinya = str(uuid.uuid4())
             datax = join_shopee_session(id_session_target, f"{uidinya}", random_cookie)
 
